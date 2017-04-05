@@ -1,0 +1,13 @@
+{
+  "name": "ws-clock",
+  "version": "1.0.0",
+  "description": "Give you time over websocket (how awesome is that ?!?)",
+  "main": "server.js",
+  "dependencies": {
+    "ws": "2.2.3"
+  },
+  "devDependencies": {
+    "wscat": "2.0.0"
+	}
+}
+
