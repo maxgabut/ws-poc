@@ -10,9 +10,7 @@ const wss = new WebSocket.Server({ port: PORT});
 console.log('Server listening on port: %s', PORT);
 
 const topicRepository = new TopicRepository();
-
-topicRepository.save(new Topic('the-army'));
-topicRepository.save(new Topic('ana'));
+topicRepository.save(require('./topics/army.js'));
 
 function registerClient(ws) {
     var connection = new Connection(ws, topicRepository, {

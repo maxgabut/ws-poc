@@ -49,5 +49,8 @@ Connection.prototype.onClose = function() {
     });
 };
 
+Connection.prototype.send = function(msg) {
+    this._ws.send(JSON.stringify(msg));
+};
 
 module.exports = Connection;
