@@ -1,0 +1,13 @@
+{
+  "name": "ws-bus",
+  "version": "1.0.0",
+  "description": "Dispatch messages one subscribe to",
+  "main": "server.js",
+  "dependencies": {
+    "ws": "2.2.3"
+  },
+  "devDependencies": {
+    "wscat": "2.0.0"
+	}
+}
+
