@@ -1,0 +1,19 @@
+{
+  "name": "ws-event-bus",
+  "version": "1.0.0",
+  "description": "Dispatch event over ws, using node event system",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha 'test/**/*.test.js'"
+  },
+  "dependencies": {
+    "argument-validator": "0.1.0",
+    "ws": "2.2.3"
+  },
+  "devDependencies": {
+    "chai": "3.5.0",
+    "mocha": "3.2.0",
+    "sinon": "2.1.0",
+    "wscat": "2.0.0"
+  }
+}
