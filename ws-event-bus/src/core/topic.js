@@ -9,13 +9,15 @@ class Topic {
     constructor(id) {
         ArgumentValidator.string(id);
 
-        this.id = function () {
-            return id;
-        };
+        this._id = id;
     }
 
 }
 util.inherits(Topic, EventEmitter);
+
+Topic.prototype.id = function() {
+    return this._id;
+};
 
 Topic.prototype.setNewListenerCallback = function (callback) {
     if (this._newListenerCallback) {
