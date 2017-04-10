@@ -9,14 +9,33 @@ class Topic {
     constructor(id) {
         ArgumentValidator.string(id);
 
-        this.id = function () { return id; }
+        this.id = function () {
+            return id;
+        };
     }
+
 }
 util.inherits(Topic, EventEmitter);
+
+Topic.prototype.setNewListenerCallback = function (callback) {
+    if (this._newListenerCallback) {
+        this.removeListener('newListener', this._newListenerCallback);
+    }
+
+    this._newListenerCallback = callback;
+    this.addListener('newListener', callback);
+};
 
 Topic.prototype.sendMessage = function(msg) {
     const topicMessage = {topic: this.id(), data: msg};
     this.emit('message', topicMessage);
+
+    // When a new listener connects, it will receive the last message
+    this.setNewListenerCallback((event, listener) => {
+        if ('message' === event) {
+            listener(topicMessage);
+        }
+    });
 };
 
 module.exports = Topic;

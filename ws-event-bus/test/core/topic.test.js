@@ -34,5 +34,18 @@ describe('Topic', () => {
             expect(spy.called).to.eq(true);
             expect(spy.calledWith({topic: 'hal', data: 'Hello !'})).to.eq(true);
         });
+
+        it('should emit last message to new listener', () => {
+            const spy = sinon.spy();
+            const topic = new Topic('hal');
+
+            topic.sendMessage('one');
+            topic.sendMessage('two');
+
+            topic.on('message', spy);
+
+            expect(spy.called).to.eq(true);
+            expect(spy.calledWith({topic: 'hal', data: 'two'})).to.eq(true);
+        });
     });
 });
