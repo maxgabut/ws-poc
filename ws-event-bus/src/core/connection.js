@@ -13,13 +13,16 @@ class Connection {
 
         this.sendRaw = this.sendRaw.bind(this);
         this.onMessageFromWs = this.onMessageFromWs.bind(this);
+        this.onWsClose = this.onWsClose.bind(this);
 
         // message published on log topic will be pushed down this connection
         this._logTopic = new Topic('log');
-        this._logTopic.setNewListenerCallback(this.sendRaw);
+        this._logTopic.on('message', this.sendRaw);
 
         // message commit from connection will be treated by a callback
         this._ws.on('message', this.onMessageFromWs);
+
+        this._ws.on('close', this.onWsClose);
     }
 
     id() {
@@ -27,7 +30,7 @@ class Connection {
     }
 
     log(msg) {
-        console.log('[%s] > %s', this._id, msg);
+        console.log('[%s] < %s', this._id, msg);
         this._logTopic.sendMessage(msg);
     }
 
@@ -42,15 +45,16 @@ class Connection {
             that._topicRepository.find(topic).disconnect(that);
             this.log('Disconnected %s from %s', that.id, topic);
         });
+        console.log('Connection closed: ', this._id);
     };
 
     onMessageFromWs(jsonMessage) {
-        console.log('[%s] < %s', this._id, jsonMessage);
+        console.log('[%s] > %s', this._id, jsonMessage);
         let objectMessage;
         try {
             objectMessage = JSON.parse(jsonMessage);
         } catch (e) {
-            this.log('Failed to parse message: ' + message);
+            this.log('Failed to parse message: ' + jsonMessage);
             return;
         }
 

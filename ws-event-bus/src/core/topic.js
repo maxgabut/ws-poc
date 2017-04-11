@@ -27,7 +27,7 @@ class Topic extends EventEmitter {
     }
 
     sendMessage(msg) {
-        const topicMessage = {topic: this.id(), data: msg};
+        const topicMessage = JSON.stringify({topic: this.id(), data: msg});
         this.emit('message', topicMessage);
 
         // When a new listener connects, it will receive the last message
