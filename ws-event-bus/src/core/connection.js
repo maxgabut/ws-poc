@@ -9,8 +9,6 @@ class Connection {
         this._topicRepository = topicRepository;
         this._ws = webSocketConnection;
 
-        this._joinedTopics = new Set();
-
         this.sendRaw = this.sendRaw.bind(this);
         this.onMessageFromWs = this.onMessageFromWs.bind(this);
         this.onWsClose = this.onWsClose.bind(this);
@@ -41,9 +39,9 @@ class Connection {
 
     onWsClose() {
         let that = this;
-        this._joinedTopics.forEach( (topic) => {
-            that._topicRepository.find(topic).disconnect(that);
-            this.log('Disconnected %s from %s', that.id, topic);
+        this._topicRepository.forEach( (topic, id) => {
+            topic.removeListener('message', that.sendRaw);
+            console.log('Disconnected %s from %s', that.id(), topic.id());
         });
         console.log('Connection closed: ', this._id);
     };
@@ -73,7 +71,6 @@ class Connection {
 
         if (topic) {
             topic.on('message', this.sendRaw);
-            this._joinedTopics.add(topicId);
             this.log('Added to topic: ' + topicId);
         } else {
             this.log('No topic named: ' + topicId);

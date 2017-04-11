@@ -12,6 +12,11 @@ class Repository {
     save(data) {
         return this._map.set(data.id(), data);
     }
+
+    // callback taking value, key and then the map as parameters
+    forEach(callback) {
+        this._map.forEach(callback);
+    }
 }
 
 module.exports = Repository;
